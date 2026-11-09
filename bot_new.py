@@ -67,7 +67,7 @@ def handle_audio_and_voice(message):
             bot.reply_to(message, f"📝 **النص المستخرج:**\n\n{final_text}")
             
     except Exception as e:
-        bot.reply_to(message, f"⚠️ تليجرام يفرض قيوداً على البوتات العادية للملفات الضخمة جداً عبر السحاب. إذا استمر الخطأ، يفضل إرسال الملف مقسماً لأجزاء أقل من 20MB.")
+        bot.reply_to(message, f"⚠️ حدث خطأ أثناء سحب الملف. قيود تليجرام الصارمة قد تمنع تحميل ملفات ضخمة جداً مباشرة للسحاب بشكل تلقائي. يفضل تجربة ملف أصغر من 20MB للتأكد أولاً.")
     finally:
         if os.path.exists(original_name):
             os.remove(original_name)
@@ -82,8 +82,14 @@ def getMessage():
 
 @app.route("/")
 def webhook():
+    # 🛠️ التعديل السحري: يقوم السيرفر بربط وتفعيل نفسه تلقائياً بتليجرام بمجرد زيارة الرابط!
+    webhook_url = f"https://onrender.com{BOT_TOKEN}"
     bot.remove_webhook()
-    return "سيرفر البوت يعمل بنجاح!", 200
+    status = bot.set_webhook(url=webhook_url)
+    if status:
+        return "🎉 تم تفعيل وربط البوت بتليجرام بنجاح باهر! السيرفر يعمل الآن.", 200
+    else:
+        return "السيرفر يعمل ولكن فشل الربط التلقائي.", 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))

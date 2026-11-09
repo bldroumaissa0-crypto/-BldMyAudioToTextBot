@@ -1,5 +1,4 @@
 pyTelegramBotAPI
-openai
-requests
+google-generativeai
 flask
 gunicorn

@@ -83,7 +83,7 @@ def getMessage():
 @app.route("/")
 def webhook():
     # 🛠️ التعديل السحري: يقوم السيرفر بربط وتفعيل نفسه تلقائياً بتليجرام بمجرد زيارة الرابط!
-    webhook_url = f"https://onrender.com{BOT_TOKEN}"
+    webhook_url = "https://onrender.com"
     bot.remove_webhook()
     status = bot.set_webhook(url=webhook_url)
     if status:
